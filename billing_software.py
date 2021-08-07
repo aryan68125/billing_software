@@ -30,6 +30,9 @@ from tkinter import messagebox
 #it will create the table if not already present
 db = Database('store.db')
 
+#importing the custom email validator module that will validate the email address entered by the user
+import email_address_validator
+
 class Bill_App:
     #initializing function 
     #initializing all the ui elements of the application
@@ -89,7 +92,6 @@ class Bill_App:
         self.customer_name = StringVar()
         self.customer_phone_number = StringVar()
         self.customer_email_address = StringVar()
-        #self.search_bill = StringVar()
 
         """------------------------------------------------------------------------------------------------------------------------"""
 
@@ -283,26 +285,29 @@ class Bill_App:
 
 
         #when the user presses the clear button it should clear all the input fields in the application
-        Clear_Button = Button(Button_Frame,text = "Clear",pady=5).grid(row=1,column=0,padx=5,pady=5)
+        Clear_Button = Button(Button_Frame,command = self.clear,text = "Clear",pady=5).grid(row=1,column=0,padx=5,pady=5)
 
         #this button should open a new window and in that window there will be list 
         Show_all_Bills_Button = Button(Button_Frame,text = "Show all bills",pady=5,command=show_all_bills).grid(row=1,column=1,padx=5,pady=5)
         
         #this button will send bill via email self.send_mail()                
-        Send_mail_via_email_button = Button(Button_Frame,text = "send bill",pady=5,command=self.send_mail).grid(row=2,column=0,padx=5,pady=5)
+        Send_mail_via_email_button = Button(Button_Frame,text = "send bill",pady=5,command=self.send_mail).grid(row=1,column=2,padx=5,pady=5,sticky="W")
 
     #this function will handle all the calculation related to the purchased items
     def calculate_total_price(self):
         print("calculate_total_price()")
         
         #total cosmetics price calulation isnumeric()
-
-        config_bill_var.soap_bought = self.soap.get()
-        config_bill_var.Face_cream_bought = self.Face_cream.get()
-        config_bill_var.Face_Wash_bought = self.Face_Wash.get()
-        config_bill_var.Hair_spray_bought = self.Hair_spray.get()
-        config_bill_var.Hair_gel_bought = self.Hair_gel.get()
-        config_bill_var.Body_lotion_bought = self.Body_lotion.get()
+        try:
+            config_bill_var.soap_bought = self.soap.get()
+            config_bill_var.Face_cream_bought = self.Face_cream.get()
+            config_bill_var.Face_Wash_bought = self.Face_Wash.get()
+            config_bill_var.Hair_spray_bought = self.Hair_spray.get()
+            config_bill_var.Hair_gel_bought = self.Hair_gel.get()
+            config_bill_var.Body_lotion_bought = self.Body_lotion.get()
+        except:
+            print("An exception occurred")
+            self.textarea.insert(END,"Oops! something went wrong\nwhile calculating cosmetics price")
 
         #total price of the cosmetics 
         total_cosmetics_price_calculation = float(
@@ -321,12 +326,16 @@ class Bill_App:
         print(f"config_bill_var.cosmetic_tax_global = {config_bill_var.cosmetic_tax_global}")
 
         #total grocery price calculation
-        config_bill_var.Rice_bought = self.Rice.get()
-        config_bill_var.Food_oil_bought = self.Food_oil.get()
-        config_bill_var.Daal_bought = self.Daal.get()
-        config_bill_var.wheat_bought = self.wheat.get()
-        config_bill_var.Sugar_bought = self.Sugar.get()
-        config_bill_var.Tea_bought = self.Tea.get()
+        try:
+            config_bill_var.Rice_bought = self.Rice.get()
+            config_bill_var.Food_oil_bought = self.Food_oil.get()
+            config_bill_var.Daal_bought = self.Daal.get()
+            config_bill_var.wheat_bought = self.wheat.get()
+            config_bill_var.Sugar_bought = self.Sugar.get()
+            config_bill_var.Tea_bought = self.Tea.get()
+        except:
+            print("An exception occurred")
+            self.textarea.insert(END,"Oops! something went wrong\nwhile calculating grocery price")
 
         #total price of the grocery 
         total_grocery_price_calculation = float(
@@ -345,12 +354,16 @@ class Bill_App:
         print(f"config_bill_var.grocery_tax_global = {config_bill_var.grocery_tax_global}")
 
         #total cold drink price calculation
-        config_bill_var.maza_bought = self.maza.get()
-        config_bill_var.coke_bought = self.coke.get()
-        config_bill_var.frooti_bought = self.frooti.get()
-        config_bill_var.thumbs_up_bought = self.thumbs_up.get()
-        config_bill_var.Limca_bought = self.Limca.get()
-        config_bill_var.sprite_bought = self.sprite.get()
+        try:
+            config_bill_var.maza_bought = self.maza.get()
+            config_bill_var.coke_bought = self.coke.get()
+            config_bill_var.frooti_bought = self.frooti.get()
+            config_bill_var.thumbs_up_bought = self.thumbs_up.get()
+            config_bill_var.Limca_bought = self.Limca.get()
+            config_bill_var.sprite_bought = self.sprite.get()
+        except:
+            print("An exception occurred")
+            self.textarea.insert(END,"Oops! something went wrong\nwhile calculating cold drinks price")
 
         #total price of the cold drink 
         total_cold_drink_price_calculation = float(
@@ -390,26 +403,30 @@ class Bill_App:
             config_bill_var.flag = 0
             #refreshing the bill area text field
             self.textarea.delete("1.0","end")
-     
-            db.insert(config_bill_var.current_date_time_global,self.customer_name.get(),self.customer_phone_number.get(),self.customer_email_address.get(),self.soap.get(),self.Face_cream.get(),self.Face_Wash.get(),self.Hair_spray.get(),self.Hair_gel.get(),self.Body_lotion.get(), self.Rice.get(),self.Food_oil.get(),self.Daal.get(),self.wheat.get(),self.Sugar.get(),self.Tea.get(),self.maza.get(),self.coke.get(),self.frooti.get(),self.thumbs_up.get(),self.Limca.get(),self.sprite.get(),self.total_cosmetics_price.get(),self.total_grocery_price.get(),self.total_cold_drink_price.get(),self.cosmetic_tax.get(),self.grocery_tax.get(),self.Cold_Drink_tax.get(),self.Total_Payble_amount.get())
-            #getting data from the database by reading the entire database using forloop
-            for row in db.fetch():
-                #compare the date and time if config_bill_var.current_date_time_global == str(row[1]) {CURRENT DATE AND TIME FROM THE DATABASE}
-                date_and_time_from_database = str(row[1])
-                print(f"date_and_time_from_database :- {date_and_time_from_database}")
-                if config_bill_var.current_date_time_global == date_and_time_from_database:
-                    #getting the bill id from the database 
-                    #note that the bill id = database row id
-                    #END = the new info will be inserted at the end of the list box
-                    #tnd the things we are inserting will be the row returned by the fetch() method
-                    config_bill_var.bill_number_global = str(row[0])
-                    print("bill id:- "+config_bill_var.bill_number_global)
-                    print(row)
 
-                    #getting the email id of the customer from the database
-                    #this email id will be used to send bill via email to the customer when we generate the bill for the customer
-                    config_bill_var.reciever_email_address = str(row[4])
-                    print(f"config_bill_var.reciever_email_address :- {config_bill_var.reciever_email_address}")
+            #validate email
+            if email_address_validator.check(self.customer_email_address.get()) == False:
+                messagebox.showerror("Error 0xA420Emailx4200", "email address is not valid!")
+            elif email_address_validator.check(self.customer_email_address.get()) == True:
+                db.insert(config_bill_var.current_date_time_global,self.customer_name.get(),self.customer_phone_number.get(),self.customer_email_address.get(),self.soap.get(),self.Face_cream.get(),self.Face_Wash.get(),self.Hair_spray.get(),self.Hair_gel.get(),self.Body_lotion.get(), self.Rice.get(),self.Food_oil.get(),self.Daal.get(),self.wheat.get(),self.Sugar.get(),self.Tea.get(),self.maza.get(),self.coke.get(),self.frooti.get(),self.thumbs_up.get(),self.Limca.get(),self.sprite.get(),self.total_cosmetics_price.get(),self.total_grocery_price.get(),self.total_cold_drink_price.get(),self.cosmetic_tax.get(),self.grocery_tax.get(),self.Cold_Drink_tax.get(),self.Total_Payble_amount.get())
+                #getting data from the database by reading the entire database using forloop
+                for row in db.fetch():
+                    #compare the date and time if config_bill_var.current_date_time_global == str(row[1]) {CURRENT DATE AND TIME FROM THE DATABASE}
+                    date_and_time_from_database = str(row[1])
+                    print(f"date_and_time_from_database :- {date_and_time_from_database}")
+                    if config_bill_var.current_date_time_global == date_and_time_from_database:
+                        #getting the bill id from the database 
+                        #note that the bill id = database row id
+                        #END = the new info will be inserted at the end of the list box
+                        #tnd the things we are inserting will be the row returned by the fetch() method
+                        config_bill_var.bill_number_global = str(row[0])
+                        print("bill id:- "+config_bill_var.bill_number_global)
+                        print(row)
+    
+                        #getting the email id of the customer from the database
+                        #this email id will be used to send bill via email to the customer when we generate the bill for the customer
+                        config_bill_var.reciever_email_address = str(row[4])
+                        print(f"config_bill_var.reciever_email_address :- {config_bill_var.reciever_email_address}")
     
         #create an error dialogue box to show error message
         if config_bill_var.flag == 1:
@@ -558,6 +575,50 @@ class Bill_App:
             except:
                 print("An exception occurred")
                 self.textarea.insert(END,"Could not send bill via email")
+
+    #this function will clear all the text and entry fields 
+    def clear(self):
+        print("clear()")
+        self.textarea.delete("1.0","end")
+                #cosmetics_frame variables
+        self.soap.set("") #number of soap purchased
+        self.Face_cream.set("") #number of face cream purchased
+        self.Face_Wash.set("") #number of face wash purchased
+        self.Hair_spray.set("") #number of hair spray purchased
+        self.Hair_gel.set("")#number of hair gel purchased
+        self.Body_lotion.set("") #number of body lotion purchased
+
+        #Grocery_frame variables
+        self.Rice.set("") #number of kg rice purchased
+        self.Food_oil.set("")
+        self.Daal.set("") #number of kg dall purchased
+        self.wheat.set("")#number of kg wheat purchased
+        self.Sugar.set("") #number of kg sugar purchased
+        self.Tea.set("")
+
+        #cold_drinks frame variables
+        self.maza.set("")
+        self.coke.set("")
+        self.frooti.set("")
+        self.thumbs_up.set("")
+        self.Limca.set("")
+        self.sprite.set("")
+
+        #Bill_menu frame variables total product price and tax variables
+        #total products prices variables
+        self.total_cosmetics_price.set("")
+        self.total_grocery_price.set("")
+        self.total_cold_drink_price.set("")
+        #tax variables
+        self.cosmetic_tax.set("")
+        self.grocery_tax.set("")
+        self.Cold_Drink_tax.set("")
+        self.Total_Payble_amount.set("")
+
+        #customer info variables
+        self.customer_name.set("")
+        self.customer_phone_number.set("")
+        self.customer_email_address.set("")
 
 
 #----------------------------function for developer info-----------------------------------------------------------------------
@@ -1015,7 +1076,6 @@ def delete_bill_id():
     bill_id_var.set("")
 
 #this function will generate bill in the bill area
-#attach this function to the generate bill button
 def send_mail_copy():
     print("nont a self send_email() function")
     try:
@@ -1023,11 +1083,6 @@ def send_mail_copy():
         config_bill_var.mail_body = str(textarea.get("1.0","end"))
         send_custom_email.send_email()
         print(config_bill_var.mail_body)
-
-        #reset global config_module for the email body to refresh the email client
-        config_bill_var.mail_body = ""
-        config_bill_var.reciever_email_address =""
-        #send the bill via text message to the customer via mobile number
     except:
         print("An exception occurred")
         textarea.insert(END,"Could not send bill via email")

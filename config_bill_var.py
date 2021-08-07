@@ -60,5 +60,6 @@ selected_item_in_the_list_box=0
 #window 2 variables
 current_date_time_global_window_two =""
 search_bill_global = ""
+flag_email = 0
 
 """------------------------------------------------------------------------------------------------------------------------"""
