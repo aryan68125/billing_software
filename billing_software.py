@@ -42,14 +42,14 @@ class Bill_App:
         #setting up the window titile
         self.window.title("Billing Software")
         #setting up the window size on first boot
-        self.window.geometry("1024x768")
+        self.window.geometry("1100x700")
 
         # setting up the minimum size and maximum size for the application's main window
         # set minimum window size value
-        window.minsize(1024, 715)
+        window.minsize(1080, 700)
 
         # set maximum window size value
-        window.maxsize(1024, 715)
+        window.maxsize(1080, 700)
 
         """--------------------------------------variables used in the program-----------------------------------------------------"""
 
@@ -216,7 +216,7 @@ class Bill_App:
         Bill_Area_frame = Frame(self.window,bd=7,relief=GROOVE)
         #.place(x=0,y=80,relwidth=1) x and y is the position where the frame will appear in the window
         # relwidth is the welative width of the frame relative to the other ui components of the application
-        Bill_Area_frame.place(x=747,y=83,width=270,height=298)
+        Bill_Area_frame.place(x=747,y=83,width=330,height=298)
         #frame height and width are adjusted by the user
         
         #Label bill title
@@ -270,7 +270,7 @@ class Bill_App:
         #frame that will hold buttons Button_Frame
         Button_Frame_background = "#006400"
         Button_Frame = Frame(Menu_frame,bd=5,relief=GROOVE,bg=Button_Frame_background)
-        Button_Frame.place(x=650,width=365,height=180)
+        Button_Frame.place(x=680,width=365,height=180)
 
         #buttons inside the button frame
 
