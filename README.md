@@ -6,3 +6,14 @@ here are some snap shots:-
 
 calculate total bill and then generate bill
 ![](1.png) 
+
+developer info
+![](2.png) 
+
+sending bill to the customer via mail 
+![](3.png) 
+![](4.png) 
+
+you can search for bills , delete bills , and resend bills to the customers via mail
+![](5.png) 
+![](6.png) 
