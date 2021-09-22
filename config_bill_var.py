@@ -46,8 +46,8 @@ bill_number_global = ""
 current_date_time_global = ""
 
 #email variables
-Email_Address_sender = "aryan268859@gmail.com"
-Password_sender = "iloveironman"
+Email_Address_sender = "your email address"
+Password_sender = "your email password"
 reciever_email_address = ""
 mail_body = ""
 
