@@ -1,7 +1,7 @@
 # billing_software
-This application is a python app built for desktops using tkinter library that is inbuilt in python. 
-For the database I used sqlLite database. It is a GUI desktop application 
-It also have the ability to send the bill to the customer using their email adddress
+This application is a python app built for desktops using a Tkinter library that is inbuilt in python. 
+For the database, I used the SQLite database. It is a GUI desktop application.
+It also can send the bill to the customer using their email address.
 
 Note:-
 1. You need to extract rar file before you can run it via double click
