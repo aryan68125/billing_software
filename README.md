@@ -7,6 +7,7 @@ Note:-
 1. You need to extract rar file before you can run it via double click
 2. This executable file will only run on windows os
 3. Feel free to check the source code If you have any doubt
+4. Download the exe file from releases section
 
 here are some snap shots:-
 
